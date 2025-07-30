@@ -1,0 +1,63 @@
+name: Cleanup
+
+on:
+  schedule:
+    # Run weekly on Sundays at 3 AM UTC
+    - cron: '0 3 * * 0'
+  workflow_dispatch:
+
+permissions:
+  actions: write
+
+jobs:
+  cleanup-caches:
+    name: Cleanup Caches
+    runs-on: ubuntu-latest
+    steps:
+      - name: Cleanup old caches
+        run: |
+          echo "Starting cache cleanup..."
+          
+          # Get list of caches
+          gh api repos/${{ github.repository }}/actions/caches \
+            --jq '.actions_caches[] | select(.created_at < (now - 86400 * 7 | strftime("%Y-%m-%dT%H:%M:%SZ"))) | .id' \
+            > old_cache_ids.txt
+          
+          # Delete old caches (older than 7 days)
+          if [ -s old_cache_ids.txt ]; then
+            echo "Deleting $(wc -l < old_cache_ids.txt) old caches..."
+            while read cache_id; do
+              echo "Deleting cache ID: $cache_id"
+              gh api --method DELETE repos/${{ github.repository }}/actions/caches/$cache_id || true
+            done < old_cache_ids.txt
+          else
+            echo "No old caches found."
+          fi
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  cleanup-artifacts:
+    name: Cleanup Artifacts
+    runs-on: ubuntu-latest
+    steps:
+      - name: Cleanup old artifacts
+        run: |
+          echo "Starting artifact cleanup..."
+          
+          # Get artifacts older than 30 days
+          gh api repos/${{ github.repository }}/actions/artifacts \
+            --jq '.artifacts[] | select(.created_at < (now - 86400 * 30 | strftime("%Y-%m-%dT%H:%M:%SZ"))) | .id' \
+            > old_artifact_ids.txt
+          
+          # Delete old artifacts
+          if [ -s old_artifact_ids.txt ]; then
+            echo "Deleting $(wc -l < old_artifact_ids.txt) old artifacts..."
+            while read artifact_id; do
+              echo "Deleting artifact ID: $artifact_id"
+              gh api --method DELETE repos/${{ github.repository }}/actions/artifacts/$artifact_id || true
+            done < old_artifact_ids.txt
+          else
+            echo "No old artifacts found."
+          fi
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
