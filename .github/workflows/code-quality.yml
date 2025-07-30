@@ -94,7 +94,7 @@ jobs:
         run: npm ci
 
       - name: Generate coverage report
-        run: npm test -- --coverage --coverageReporters=json-summary,text
+        run: npm test -- --coverage --coverageReporters json-summary --coverageReporters text
 
       - name: Create beautiful coverage report
         if: github.event_name == 'pull_request'
