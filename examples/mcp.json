@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "todoist": {
+      "command": "npx",
+      "args": ["-y", "@upspawn/todoist-mcp"],
+      "env": {
+        "TODOIST_API_KEY": "your-todoist-api-key-here"
+      }
+    }
+  }
+}

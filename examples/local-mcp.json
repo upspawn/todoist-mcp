@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "todoist": {
+      "command": "node",
+      "args": ["dist/index.js"],
+      "cwd": "/Users/alex/Projects/alexerm/todoist-mcp",
+      "env": {
+        "TODOIST_API_KEY": "your-todoist-api-key-here",
+        "DEBUG": "true"
+      }
+    }
+  }
+}
