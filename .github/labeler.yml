@@ -1,0 +1,37 @@
+# Automatically label PRs based on files changed
+
+# Core functionality
+core:
+  - any: ['src/handlers/**/*', 'src/services/**/*', 'src/types/**/*']
+
+# Configuration
+config:
+  - any: ['package.json', 'tsconfig.json', 'jest.config.js', '.eslintrc*', '.prettierrc*']
+
+# CI/CD
+ci:
+  - any: ['.github/**/*']
+
+# Documentation
+documentation:
+  - any: ['docs/**/*', 'README.md', '*.md']
+
+# Tests
+tests:
+  - any: ['tests/**/*', '**/*.test.ts', '**/*.spec.ts']
+
+# Dependencies
+dependencies:
+  - any: ['package-lock.json', 'package.json']
+
+# API
+api:
+  - any: ['src/services/todoist-api.ts']
+
+# MCP Protocol
+mcp:
+  - any: ['src/handlers/tool-*.ts', 'src/types/mcp.ts']
+
+# Todoist specific
+todoist:
+  - any: ['src/types/todoist.ts', 'src/services/todoist-api.ts']

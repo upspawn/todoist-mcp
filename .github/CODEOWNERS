@@ -1,0 +1,20 @@
+# Global ownership
+* @upspawn
+
+# Core functionality
+/src/handlers/ @upspawn
+/src/services/ @upspawn
+/src/types/ @upspawn
+
+# Infrastructure and configuration
+/.github/ @upspawn
+/package.json @upspawn
+/tsconfig.json @upspawn
+/jest.config.js @upspawn
+
+# Documentation
+/docs/ @upspawn
+/README.md @upspawn
+
+# Tests
+/tests/ @upspawn

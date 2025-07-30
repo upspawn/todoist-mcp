@@ -1,0 +1,60 @@
+name: Dependency Update Check
+
+on:
+  schedule:
+    # Run every Monday at 9 AM UTC
+    - cron: '0 9 * * 1'
+  workflow_dispatch:
+
+jobs:
+  check-outdated:
+    name: Check Outdated Dependencies
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check for outdated packages
+        run: |
+          echo "## Outdated Dependencies Report" > outdated-report.md
+          echo "" >> outdated-report.md
+          echo "Generated on: $(date)" >> outdated-report.md
+          echo "" >> outdated-report.md
+          
+          if npm outdated --json > outdated.json 2>/dev/null; then
+            echo "### Outdated packages found:" >> outdated-report.md
+            echo '```json' >> outdated-report.md
+            cat outdated.json >> outdated-report.md
+            echo '```' >> outdated-report.md
+          else
+            echo "✅ All dependencies are up to date!" >> outdated-report.md
+          fi
+          
+          echo "" >> outdated-report.md
+          echo "### Security audit:" >> outdated-report.md
+          if npm audit --json > audit.json 2>/dev/null; then
+            echo '```json' >> outdated-report.md
+            cat audit.json >> outdated-report.md
+            echo '```' >> outdated-report.md
+          else
+            echo "✅ No security vulnerabilities found!" >> outdated-report.md
+          fi
+
+      - name: Create Issue for Outdated Dependencies
+        uses: peter-evans/create-issue-from-file@v5
+        with:
+          title: "Weekly Dependency Update Check - $(date +'%Y-%m-%d')"
+          content-filepath: outdated-report.md
+          labels: |
+            dependencies
+            maintenance
+            automated

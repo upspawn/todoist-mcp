@@ -5,7 +5,7 @@ import { logger } from './logger.js';
 
 export function loadConfig(): TodoistMcpConfig {
   const apiKey = process.env.TODOIST_API_KEY;
-  
+
   if (!apiKey) {
     logger.error('TODOIST_API_KEY environment variable is required');
     throw new Error('TODOIST_API_KEY environment variable is required');
@@ -13,18 +13,19 @@ export function loadConfig(): TodoistMcpConfig {
 
   const config: TodoistMcpConfig = {
     apiKey,
-    baseUrl: process.env.TODOIST_API_BASE_URL || 'https://api.todoist.com/rest/v2',
+    baseUrl:
+      process.env.TODOIST_API_BASE_URL || 'https://api.todoist.com/rest/v2',
     timeout: parseInt(process.env.TODOIST_TIMEOUT || '15000', 10),
     retryAttempts: parseInt(process.env.TODOIST_RETRY_ATTEMPTS || '3', 10),
     debug: process.env.DEBUG === 'true',
   };
 
   logger.setDebug(config.debug || false);
-  logger.debug_log('Configuration loaded', { 
-    baseUrl: config.baseUrl, 
+  logger.debug_log('Configuration loaded', {
+    baseUrl: config.baseUrl,
     timeout: config.timeout,
     retryAttempts: config.retryAttempts,
-    debug: config.debug
+    debug: config.debug,
   });
 
   return config;

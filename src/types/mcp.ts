@@ -40,7 +40,10 @@ export class TodoistApiError extends Error {
 }
 
 export class RateLimitError extends TodoistApiError {
-  constructor(message: string, public resetTime?: number) {
+  constructor(
+    message: string,
+    public resetTime?: number
+  ) {
     super(message, 429);
     this.name = 'RateLimitError';
   }
