@@ -21,20 +21,24 @@ async function main() {
 
     // Load configuration
     const config = loadConfig();
-    
+
     // Validate API key format
     if (!validateApiKey(config.apiKey)) {
-      logger.warn('API key format appears invalid (expected 40-character hex string)');
+      logger.warn(
+        'API key format appears invalid (expected 40-character hex string)'
+      );
     }
 
     // Initialize Todoist API client
     const apiClient = new TodoistApiClient(config);
-    
+
     // Test API connection
     logger.info('Testing Todoist API connection...');
     const isHealthy = await apiClient.healthCheck();
     if (!isHealthy) {
-      logger.error('Failed to connect to Todoist API. Please check your API key.');
+      logger.error(
+        'Failed to connect to Todoist API. Please check your API key.'
+      );
       process.exit(1);
     }
     logger.info('✓ Successfully connected to Todoist API');
@@ -67,7 +71,7 @@ async function main() {
     server.setRequestHandler(CallToolRequestSchema, async (request) => {
       const { name, arguments: args } = request.params;
       logger.debug_log(`Executing tool: ${name}`, args);
-      
+
       try {
         const result = await toolHandlers.handleTool(name, args || {});
         return {
@@ -90,20 +94,19 @@ async function main() {
 
     // Set up stdio transport
     const transport = new StdioServerTransport();
-    
+
     // Connect server to transport
     await server.connect(transport);
-    
+
     logger.info('🚀 Todoist MCP Server started successfully');
     logger.info(`Available tools: ${TODOIST_TOOLS.length}`);
-    
+
     // Keep the process running
     process.on('SIGINT', async () => {
       logger.info('Shutting down Todoist MCP Server...');
       await server.close();
       process.exit(0);
     });
-
   } catch (error) {
     logger.error('Failed to start Todoist MCP Server:', error);
     process.exit(1);

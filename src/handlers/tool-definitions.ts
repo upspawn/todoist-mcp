@@ -19,9 +19,15 @@ export const TODOIST_TOOLS: McpTool[] = [
       type: 'object',
       properties: {
         name: { type: 'string', description: 'Project name' },
-        parent_id: { type: 'number', description: 'Parent project ID (optional)' },
+        parent_id: {
+          type: 'number',
+          description: 'Parent project ID (optional)',
+        },
         color: { type: 'number', description: 'Color ID (optional)' },
-        favorite: { type: 'boolean', description: 'Mark as favorite (optional)' },
+        favorite: {
+          type: 'boolean',
+          description: 'Mark as favorite (optional)',
+        },
       },
       required: ['name'],
     },
@@ -46,7 +52,10 @@ export const TODOIST_TOOLS: McpTool[] = [
         project_id: { type: 'number', description: 'Project ID' },
         name: { type: 'string', description: 'New project name (optional)' },
         color: { type: 'number', description: 'Color ID (optional)' },
-        favorite: { type: 'boolean', description: 'Favorite status (optional)' },
+        favorite: {
+          type: 'boolean',
+          description: 'Favorite status (optional)',
+        },
       },
       required: ['project_id'],
     },
@@ -81,11 +90,24 @@ export const TODOIST_TOOLS: McpTool[] = [
     inputSchema: {
       type: 'object',
       properties: {
-        project_id: { type: 'number', description: 'Filter by project ID (optional)' },
-        section_id: { type: 'number', description: 'Filter by section ID (optional)' },
-        label_id: { type: 'number', description: 'Filter by label ID (optional)' },
+        project_id: {
+          type: 'number',
+          description: 'Filter by project ID (optional)',
+        },
+        section_id: {
+          type: 'number',
+          description: 'Filter by section ID (optional)',
+        },
+        label_id: {
+          type: 'number',
+          description: 'Filter by label ID (optional)',
+        },
         filter: { type: 'string', description: 'Filter expression (optional)' },
-        ids: { type: 'array', items: { type: 'number' }, description: 'Specific task IDs (optional)' },
+        ids: {
+          type: 'array',
+          items: { type: 'number' },
+          description: 'Specific task IDs (optional)',
+        },
       },
     },
   },
@@ -96,17 +118,45 @@ export const TODOIST_TOOLS: McpTool[] = [
       type: 'object',
       properties: {
         content: { type: 'string', description: 'Task content/title' },
-        description: { type: 'string', description: 'Task description (optional)' },
-        project_id: { type: 'number', description: 'Project ID (optional, defaults to Inbox)' },
+        description: {
+          type: 'string',
+          description: 'Task description (optional)',
+        },
+        project_id: {
+          type: 'number',
+          description: 'Project ID (optional, defaults to Inbox)',
+        },
         section_id: { type: 'number', description: 'Section ID (optional)' },
-        parent_id: { type: 'number', description: 'Parent task ID for subtasks (optional)' },
-        label_ids: { type: 'array', items: { type: 'number' }, description: 'Label IDs (optional)' },
+        parent_id: {
+          type: 'number',
+          description: 'Parent task ID for subtasks (optional)',
+        },
+        label_ids: {
+          type: 'array',
+          items: { type: 'number' },
+          description: 'Label IDs (optional)',
+        },
         priority: { type: 'number', description: 'Priority 1-4 (optional)' },
-        due_string: { type: 'string', description: 'Natural language due date (optional)' },
-        due_date: { type: 'string', description: 'Due date YYYY-MM-DD (optional)' },
-        due_datetime: { type: 'string', description: 'Due datetime RFC3339 (optional)' },
-        due_lang: { type: 'string', description: 'Language for date parsing (optional)' },
-        assignee: { type: 'number', description: 'Assignee user ID (optional)' },
+        due_string: {
+          type: 'string',
+          description: 'Natural language due date (optional)',
+        },
+        due_date: {
+          type: 'string',
+          description: 'Due date YYYY-MM-DD (optional)',
+        },
+        due_datetime: {
+          type: 'string',
+          description: 'Due datetime RFC3339 (optional)',
+        },
+        due_lang: {
+          type: 'string',
+          description: 'Language for date parsing (optional)',
+        },
+        assignee: {
+          type: 'number',
+          description: 'Assignee user ID (optional)',
+        },
       },
       required: ['content'],
     },
@@ -129,18 +179,43 @@ export const TODOIST_TOOLS: McpTool[] = [
       type: 'object',
       properties: {
         task_id: { type: 'number', description: 'Task ID' },
-        content: { type: 'string', description: 'Task content/title (optional)' },
-        description: { type: 'string', description: 'Task description (optional)' },
+        content: {
+          type: 'string',
+          description: 'Task content/title (optional)',
+        },
+        description: {
+          type: 'string',
+          description: 'Task description (optional)',
+        },
         project_id: { type: 'number', description: 'Project ID (optional)' },
         section_id: { type: 'number', description: 'Section ID (optional)' },
         parent_id: { type: 'number', description: 'Parent task ID (optional)' },
-        label_ids: { type: 'array', items: { type: 'number' }, description: 'Label IDs (optional)' },
+        label_ids: {
+          type: 'array',
+          items: { type: 'number' },
+          description: 'Label IDs (optional)',
+        },
         priority: { type: 'number', description: 'Priority 1-4 (optional)' },
-        due_string: { type: 'string', description: 'Natural language due date (optional)' },
-        due_date: { type: 'string', description: 'Due date YYYY-MM-DD (optional)' },
-        due_datetime: { type: 'string', description: 'Due datetime RFC3339 (optional)' },
-        due_lang: { type: 'string', description: 'Language for date parsing (optional)' },
-        assignee: { type: 'number', description: 'Assignee user ID (optional)' },
+        due_string: {
+          type: 'string',
+          description: 'Natural language due date (optional)',
+        },
+        due_date: {
+          type: 'string',
+          description: 'Due date YYYY-MM-DD (optional)',
+        },
+        due_datetime: {
+          type: 'string',
+          description: 'Due datetime RFC3339 (optional)',
+        },
+        due_lang: {
+          type: 'string',
+          description: 'Language for date parsing (optional)',
+        },
+        assignee: {
+          type: 'number',
+          description: 'Assignee user ID (optional)',
+        },
       },
       required: ['task_id'],
     },
@@ -184,14 +259,39 @@ export const TODOIST_TOOLS: McpTool[] = [
     inputSchema: {
       type: 'object',
       properties: {
-        text: { type: 'string', description: 'Natural language task description (e.g., "Submit report by Friday 5pm #Work p2")' },
-        note: { type: 'string', description: 'Initial note/comment (optional)' },
-        reminder: { type: 'string', description: 'Reminder specification (optional)' },
-        project_id: { type: 'number', description: 'Override project ID (optional)' },
-        section_id: { type: 'number', description: 'Override section ID (optional)' },
-        parent_id: { type: 'number', description: 'Make this a subtask (optional)' },
-        due_lang: { type: 'string', description: 'Language for date parsing (optional)' },
-        priority: { type: 'number', description: 'Priority override 1-4 (optional)' },
+        text: {
+          type: 'string',
+          description:
+            'Natural language task description (e.g., "Submit report by Friday 5pm #Work p2")',
+        },
+        note: {
+          type: 'string',
+          description: 'Initial note/comment (optional)',
+        },
+        reminder: {
+          type: 'string',
+          description: 'Reminder specification (optional)',
+        },
+        project_id: {
+          type: 'number',
+          description: 'Override project ID (optional)',
+        },
+        section_id: {
+          type: 'number',
+          description: 'Override section ID (optional)',
+        },
+        parent_id: {
+          type: 'number',
+          description: 'Make this a subtask (optional)',
+        },
+        due_lang: {
+          type: 'string',
+          description: 'Language for date parsing (optional)',
+        },
+        priority: {
+          type: 'number',
+          description: 'Priority override 1-4 (optional)',
+        },
       },
       required: ['text'],
     },
@@ -204,7 +304,10 @@ export const TODOIST_TOOLS: McpTool[] = [
     inputSchema: {
       type: 'object',
       properties: {
-        project_id: { type: 'number', description: 'Project ID to filter by (optional)' },
+        project_id: {
+          type: 'number',
+          description: 'Project ID to filter by (optional)',
+        },
       },
     },
   },
@@ -264,8 +367,16 @@ export const TODOIST_TOOLS: McpTool[] = [
     inputSchema: {
       type: 'object',
       properties: {
-        task_id: { type: 'number', description: 'Task ID (optional, either task_id or project_id required)' },
-        project_id: { type: 'number', description: 'Project ID (optional, either task_id or project_id required)' },
+        task_id: {
+          type: 'number',
+          description:
+            'Task ID (optional, either task_id or project_id required)',
+        },
+        project_id: {
+          type: 'number',
+          description:
+            'Project ID (optional, either task_id or project_id required)',
+        },
       },
     },
   },
@@ -276,9 +387,20 @@ export const TODOIST_TOOLS: McpTool[] = [
       type: 'object',
       properties: {
         content: { type: 'string', description: 'Comment content' },
-        task_id: { type: 'number', description: 'Task ID (optional, either task_id or project_id required)' },
-        project_id: { type: 'number', description: 'Project ID (optional, either task_id or project_id required)' },
-        attachment: { type: 'object', description: 'File attachment metadata (optional)' },
+        task_id: {
+          type: 'number',
+          description:
+            'Task ID (optional, either task_id or project_id required)',
+        },
+        project_id: {
+          type: 'number',
+          description:
+            'Project ID (optional, either task_id or project_id required)',
+        },
+        attachment: {
+          type: 'object',
+          description: 'File attachment metadata (optional)',
+        },
       },
       required: ['content'],
     },
@@ -336,7 +458,10 @@ export const TODOIST_TOOLS: McpTool[] = [
         name: { type: 'string', description: 'Label name' },
         color: { type: 'number', description: 'Color ID (optional)' },
         order: { type: 'number', description: 'Sort order (optional)' },
-        favorite: { type: 'boolean', description: 'Mark as favorite (optional)' },
+        favorite: {
+          type: 'boolean',
+          description: 'Mark as favorite (optional)',
+        },
       },
       required: ['name'],
     },
@@ -362,7 +487,10 @@ export const TODOIST_TOOLS: McpTool[] = [
         name: { type: 'string', description: 'New label name (optional)' },
         color: { type: 'number', description: 'Color ID (optional)' },
         order: { type: 'number', description: 'Sort order (optional)' },
-        favorite: { type: 'boolean', description: 'Favorite status (optional)' },
+        favorite: {
+          type: 'boolean',
+          description: 'Favorite status (optional)',
+        },
       },
       required: ['label_id'],
     },
@@ -386,8 +514,14 @@ export const TODOIST_TOOLS: McpTool[] = [
     inputSchema: {
       type: 'object',
       properties: {
-        limit: { type: 'number', description: 'Maximum number of tasks (default 30, max 200)' },
-        since: { type: 'string', description: 'Only tasks completed after this timestamp (RFC3339)' },
+        limit: {
+          type: 'number',
+          description: 'Maximum number of tasks (default 30, max 200)',
+        },
+        since: {
+          type: 'string',
+          description: 'Only tasks completed after this timestamp (RFC3339)',
+        },
       },
     },
   },
@@ -398,15 +532,22 @@ export const TODOIST_TOOLS: McpTool[] = [
       type: 'object',
       properties: {
         project_id: { type: 'number', description: 'Project ID' },
-        limit: { type: 'number', description: 'Maximum number of tasks (default 30, max 200)' },
-        until: { type: 'string', description: 'Only tasks completed before this date (YYYY-MM-DD)' },
+        limit: {
+          type: 'number',
+          description: 'Maximum number of tasks (default 30, max 200)',
+        },
+        until: {
+          type: 'string',
+          description: 'Only tasks completed before this date (YYYY-MM-DD)',
+        },
       },
       required: ['project_id'],
     },
   },
   {
     name: 'get_productivity_stats',
-    description: 'Get productivity statistics including karma and daily completion counts',
+    description:
+      'Get productivity statistics including karma and daily completion counts',
     inputSchema: {
       type: 'object',
       properties: {},
