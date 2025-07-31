@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  todoist-mcp:
+    build: .
+    environment:
+      - TODOIST_API_KEY=${TODOIST_API_KEY}
+      - DEBUG=${DEBUG:-false}
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./logs:/app/logs
+    restart: unless-stopped
+
+  # Alternative using published image (when available)
+  # todoist-mcp:
+  #   image: upspawn/todoist-mcp:latest
+  #   environment:
+  #     - TODOIST_API_KEY=${TODOIST_API_KEY}
+  #     - DEBUG=${DEBUG:-false}
+  #   stdin_open: true
+  #   tty: true
+  #   restart: unless-stopped

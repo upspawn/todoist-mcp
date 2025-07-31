@@ -27,22 +27,105 @@
 
 ---
 
-## 🚀 Quick Start (60 sec)
+## 🚀 Getting Started
 
-1. **Get a Todoist token** → <https://todoist.com/prefs/integrations>
-2. **Add to `mcp.json`**
+First, get your Todoist API token from <https://todoist.com/prefs/integrations>.
 
-   ```json
-   {
-     "todoist": {
-       "command": "npx",
-       "args": ["-y", "@upspawn/todoist-mcp"],
-       "env": { "TODOIST_API_KEY": "<your-token>" }
-     }
-   }
-   ```
-3. **Ask your AI**:  
-   `"Add \"Review PR #42\" for tomorrow 10 am #Work"`
+### Requirements
+- Node.js 18 or newer
+- VS Code, Cursor, Windsurf, Claude Desktop, Goose or any other MCP client
+
+### Installation by Client
+
+**Standard config** works in most tools:
+```json
+{
+  "mcpServers": {
+    "todoist": {
+      "command": "npx",
+      "args": ["-y", "@upspawn/todoist-mcp"],
+      "env": {
+        "TODOIST_API_KEY": "your-todoist-api-key-here"
+      }
+    }
+  }
+}
+```
+
+#### Claude Code
+Use the Claude Code CLI to add the Todoist MCP server:
+```bash
+claude mcp add todoist npx @upspawn/todoist-mcp
+```
+
+#### Claude Desktop
+Follow the MCP install [guide](https://modelcontextprotocol.io/quickstart/user), use the standard config above.
+
+#### Cursor
+Go to `Cursor Settings` → `MCP` → `Add new MCP Server`. Name it "todoist", use `command` type with the command `npx @upspawn/todoist-mcp`. Add your `TODOIST_API_KEY` environment variable.
+
+#### Gemini CLI
+Follow the MCP install [guide](https://github.com/google-gemini/gemini-cli/blob/main/docs/tools/mcp-server.md#configure-the-mcp-server-in-settingsjson), use the standard config above.
+
+#### Goose
+Go to `Advanced settings` → `Extensions` → `Add custom extension`. Name it "todoist", use type `STDIO`, and set the `command` to `npx @upspawn/todoist-mcp`. Add your `TODOIST_API_KEY` environment variable.
+
+#### LM Studio
+Go to `Program` in the right sidebar → `Install` → `Edit mcp.json`. Use the standard config above.
+
+#### Qodo Gen
+Open [Qodo Gen](https://docs.qodo.ai/qodo-documentation/qodo-gen) chat panel in VSCode or IntelliJ → Connect more tools → + Add new MCP → Paste the standard config above. Click `Save`.
+
+#### VS Code
+Follow the MCP install [guide](https://code.visualstudio.com/docs/copilot/chat/mcp-servers#_add-an-mcp-server), use the standard config above.
+
+You can also install using the VS Code CLI:
+```bash
+code --add-mcp '{"name":"todoist","command":"npx","args":["-y","@upspawn/todoist-mcp"],"env":{"TODOIST_API_KEY":"your-api-key"}}'
+```
+
+#### Windsurf
+Follow Windsurf MCP [documentation](https://docs.windsurf.com/windsurf/cascade/mcp). Use the standard config above.
+
+### Docker Installation
+
+If you prefer using Docker:
+
+1. **Pull the image** (when available):
+```bash
+docker pull upspawn/todoist-mcp:latest
+```
+
+2. **Or build locally**:
+```bash
+git clone https://github.com/upspawn/todoist-mcp.git
+cd todoist-mcp
+npm run build
+docker build -t todoist-mcp .
+```
+
+3. **Run with your API key**:
+```bash
+docker run -e TODOIST_API_KEY=your-api-key todoist-mcp
+```
+
+4. **Docker Compose** example:
+```yaml
+version: '3.8'
+services:
+  todoist-mcp:
+    image: upspawn/todoist-mcp:latest
+    environment:
+      - TODOIST_API_KEY=your-api-key
+      - DEBUG=false
+    stdin_open: true
+    tty: true
+```
+
+### Quick Test
+
+Once configured, ask your AI:  
+`"Add 'Review PR #42' for tomorrow 10 am #Work"`
 
 That's it! 🎉
 
@@ -50,32 +133,13 @@ That's it! 🎉
 
 ## 📚 Table of Contents
 
-- [Installation](#installation)
-- [Configuration](#configuration)
-- [Available Tools](#available-tools)
-- [Usage Snippets](#usage-snippets)
-- [Development Guide](#development-guide)
-- [Contributing](#contributing)
-- [License](#license)
-
----
-
-## 🛠️ Installation
-
-### Production / CI
-
-```bash
-npx -y @upspawn/todoist-mcp  # starts the MCP server
-```
-
-### Local Dev
-
-```bash
-git clone https://github.com/upspawn/todoist-mcp.git
-cd todoist-mcp
-npm i
-npm run dev  # ts-node + nodemon hot-reload
-```
+- [Getting Started](#-getting-started)
+- [Configuration](#-configuration)
+- [Available Tools](#-available-tools-32)
+- [Usage Snippets](#-usage-snippets)
+- [Development Guide](#-development-guide)
+- [Contributing](#-contributing)
+- [License](#-license)
 
 ---
 
@@ -95,6 +159,13 @@ Create a `.env`:
 TODOIST_API_KEY=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 DEBUG=true
 ```
+
+### Configuration Examples
+
+Check the [`examples/`](examples/) directory for various configuration options:
+- [`mcp.json`](examples/mcp.json) - Standard npm-based configuration
+- [`local-mcp.json`](examples/local-mcp.json) - Local development configuration
+- [`docker-mcp.json`](examples/docker-mcp.json) - Docker-based configuration
 
 ---
 
@@ -138,7 +209,17 @@ DEBUG=true
 
 ## 🧑‍💻 Development Guide
 
+### Local Development
+
 ```bash
+# Clone and setup
+git clone https://github.com/upspawn/todoist-mcp.git
+cd todoist-mcp
+npm i
+
+# Development with hot-reload
+npm run dev  # ts-node + nodemon hot-reload
+
 # Build & run tests
 npm run build && npm test -- --coverage
 
@@ -147,6 +228,21 @@ npm run lint && npm run format
 
 # Generate HTML coverage report
 open coverage/lcov-report/index.html
+```
+
+### Docker Development
+
+```bash
+# Build Docker image
+npm run build
+docker build -t todoist-mcp .
+
+# Run with Docker Compose
+echo "TODOIST_API_KEY=your-api-key" > .env
+docker-compose up
+
+# Run tests in Docker
+docker run --rm -v $(pwd):/app -w /app node:20-alpine npm test
 ```
 
 ### Architectural Overview
