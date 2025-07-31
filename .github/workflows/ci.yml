@@ -36,6 +36,9 @@ jobs:
       - name: Check TypeScript compilation
         run: npx tsc --noEmit
 
+      - name: Validate version consistency
+        run: npm run validate:versions
+
   test:
     name: Test (Node ${{ matrix.node-version }})
     runs-on: ubuntu-latest
