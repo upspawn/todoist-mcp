@@ -8,10 +8,8 @@ updates:
       day: "monday"
       time: "09:00"
     open-pull-requests-limit: 10
-    reviewers:
-      - "upspawn"
     assignees:
-      - "upspawn"
+      - "alexerm"
     commit-message:
       prefix: "deps"
       include: "scope"
@@ -34,6 +32,8 @@ updates:
       interval: "weekly"
       day: "monday"
       time: "09:00"
+    assignees:
+      - "alexerm"
     commit-message:
       prefix: "ci"
       include: "scope"

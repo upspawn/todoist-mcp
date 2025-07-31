@@ -1,20 +1,12 @@
-# Global ownership
-* @upspawn
+# Global code owners for the entire repository
+* @alexerm
 
-# Core functionality
-/src/handlers/ @upspawn
-/src/services/ @upspawn
-/src/types/ @upspawn
+# Specific ownership for package files
+package.json @alexerm
+package-lock.json @alexerm
 
-# Infrastructure and configuration
-/.github/ @upspawn
-/package.json @upspawn
-/tsconfig.json @upspawn
-/jest.config.js @upspawn
+# GitHub Actions workflows
+.github/workflows/ @alexerm
 
-# Documentation
-/docs/ @upspawn
-/README.md @upspawn
-
-# Tests
-/tests/ @upspawn
+# Dependabot configuration
+.github/dependabot.yml @alexerm
