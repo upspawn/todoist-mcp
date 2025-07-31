@@ -8,6 +8,10 @@ import { TodoistMcpConfig, RateLimitError, TodoistApiError } from '../../src/typ
 jest.mock('axios');
 const mockedAxios = axios as jest.Mocked<typeof axios>;
 
+// Mock the isAxiosError function
+const mockIsAxiosError = jest.fn();
+(axios as any).isAxiosError = mockIsAxiosError;
+
 describe('TodoistApiClient - Error Handling', () => {
   let apiClient: TodoistApiClient;
   let mockAxiosInstance: jest.Mocked<any>;
@@ -77,6 +81,13 @@ describe('TodoistApiClient - Error Handling', () => {
   });
 
   describe('HTTP Error Handling', () => {
+    beforeEach(() => {
+      // Reset the mock implementation before each test
+      mockAxiosInstance.get.mockReset();
+      mockAxiosInstance.post.mockReset();
+      mockAxiosInstance.delete.mockReset();
+    });
+
     it('should handle 401 unauthorized errors', async () => {
       const unauthorizedError = {
         response: {
@@ -86,9 +97,20 @@ describe('TodoistApiClient - Error Handling', () => {
         isAxiosError: true,
         message: 'Request failed with status code 401',
       };
-      mockAxiosInstance.get.mockRejectedValue(unauthorizedError);
+      
+      // Mock axios.isAxiosError to return true for our mock error
+      mockIsAxiosError.mockReturnValue(true);
+      
+      // Get the error handler from the response interceptor and call it manually
+      const responseInterceptor = mockAxiosInstance.interceptors.response.use.mock.calls[0];
+      const errorHandler = responseInterceptor[1];
+      
+      mockAxiosInstance.get.mockImplementation(async () => {
+        const handledError = await errorHandler(unauthorizedError);
+        return handledError;
+      });
 
-      await expect(apiClient.getProjects()).rejects.toThrow();
+      await expect(apiClient.getProjects()).rejects.toThrow(TodoistApiError);
     });
 
     it('should handle 403 forbidden errors', async () => {
@@ -100,9 +122,18 @@ describe('TodoistApiClient - Error Handling', () => {
         isAxiosError: true,
         message: 'Request failed with status code 403',
       };
-      mockAxiosInstance.get.mockRejectedValue(forbiddenError);
+      
+      mockIsAxiosError.mockReturnValue(true);
+      
+      const responseInterceptor = mockAxiosInstance.interceptors.response.use.mock.calls[0];
+      const errorHandler = responseInterceptor[1];
+      
+      mockAxiosInstance.get.mockImplementation(async () => {
+        const handledError = await errorHandler(forbiddenError);
+        return handledError;
+      });
 
-      await expect(apiClient.getProjects()).rejects.toThrow();
+      await expect(apiClient.getProjects()).rejects.toThrow(TodoistApiError);
     });
 
     it('should handle 404 not found errors', async () => {
@@ -114,9 +145,18 @@ describe('TodoistApiClient - Error Handling', () => {
         isAxiosError: true,
         message: 'Request failed with status code 404',
       };
-      mockAxiosInstance.get.mockRejectedValue(notFoundError);
+      
+      mockIsAxiosError.mockReturnValue(true);
+      
+      const responseInterceptor = mockAxiosInstance.interceptors.response.use.mock.calls[0];
+      const errorHandler = responseInterceptor[1];
+      
+      mockAxiosInstance.get.mockImplementation(async () => {
+        const handledError = await errorHandler(notFoundError);
+        return handledError;
+      });
 
-      await expect(apiClient.getProject(999)).rejects.toThrow();
+      await expect(apiClient.getProject(999)).rejects.toThrow(TodoistApiError);
     });
 
     it('should handle 500 server errors', async () => {
@@ -128,9 +168,18 @@ describe('TodoistApiClient - Error Handling', () => {
         isAxiosError: true,
         message: 'Request failed with status code 500',
       };
-      mockAxiosInstance.get.mockRejectedValue(serverError);
+      
+      mockIsAxiosError.mockReturnValue(true);
+      
+      const responseInterceptor = mockAxiosInstance.interceptors.response.use.mock.calls[0];
+      const errorHandler = responseInterceptor[1];
+      
+      mockAxiosInstance.get.mockImplementation(async () => {
+        const handledError = await errorHandler(serverError);
+        return handledError;
+      });
 
-      await expect(apiClient.getProjects()).rejects.toThrow();
+      await expect(apiClient.getProjects()).rejects.toThrow(TodoistApiError);
     });
 
     it('should handle errors without response data', async () => {
@@ -141,9 +190,18 @@ describe('TodoistApiClient - Error Handling', () => {
         isAxiosError: true,
         message: 'Network Error',
       };
-      mockAxiosInstance.get.mockRejectedValue(networkError);
+      
+      mockIsAxiosError.mockReturnValue(true);
+      
+      const responseInterceptor = mockAxiosInstance.interceptors.response.use.mock.calls[0];
+      const errorHandler = responseInterceptor[1];
+      
+      mockAxiosInstance.get.mockImplementation(async () => {
+        const handledError = await errorHandler(networkError);
+        return handledError;
+      });
 
-      await expect(apiClient.getProjects()).rejects.toThrow();
+      await expect(apiClient.getProjects()).rejects.toThrow(TodoistApiError);
     });
   });
 
@@ -154,9 +212,18 @@ describe('TodoistApiClient - Error Handling', () => {
         message: 'timeout of 15000ms exceeded',
         isAxiosError: true,
       };
-      mockAxiosInstance.get.mockRejectedValue(timeoutError);
+      
+      mockIsAxiosError.mockReturnValue(true);
+      
+      const responseInterceptor = mockAxiosInstance.interceptors.response.use.mock.calls[0];
+      const errorHandler = responseInterceptor[1];
+      
+      mockAxiosInstance.get.mockImplementation(async () => {
+        const handledError = await errorHandler(timeoutError);
+        return handledError;
+      });
 
-      await expect(apiClient.getProjects()).rejects.toThrow();
+      await expect(apiClient.getProjects()).rejects.toThrow(TodoistApiError);
     });
 
     it('should handle connection refused errors', async () => {
@@ -165,9 +232,18 @@ describe('TodoistApiClient - Error Handling', () => {
         message: 'connect ECONNREFUSED 127.0.0.1:443',
         isAxiosError: true,
       };
-      mockAxiosInstance.get.mockRejectedValue(connectionError);
+      
+      mockIsAxiosError.mockReturnValue(true);
+      
+      const responseInterceptor = mockAxiosInstance.interceptors.response.use.mock.calls[0];
+      const errorHandler = responseInterceptor[1];
+      
+      mockAxiosInstance.get.mockImplementation(async () => {
+        const handledError = await errorHandler(connectionError);
+        return handledError;
+      });
 
-      await expect(apiClient.getProjects()).rejects.toThrow();
+      await expect(apiClient.getProjects()).rejects.toThrow(TodoistApiError);
     });
 
     it('should handle DNS resolution errors', async () => {
@@ -176,28 +252,62 @@ describe('TodoistApiClient - Error Handling', () => {
         message: 'getaddrinfo ENOTFOUND api.todoist.com',
         isAxiosError: true,
       };
-      mockAxiosInstance.get.mockRejectedValue(dnsError);
+      
+      mockIsAxiosError.mockReturnValue(true);
+      
+      const responseInterceptor = mockAxiosInstance.interceptors.response.use.mock.calls[0];
+      const errorHandler = responseInterceptor[1];
+      
+      mockAxiosInstance.get.mockImplementation(async () => {
+        const handledError = await errorHandler(dnsError);
+        return handledError;
+      });
 
-      await expect(apiClient.getProjects()).rejects.toThrow();
+      await expect(apiClient.getProjects()).rejects.toThrow(TodoistApiError);
     });
   });
 
   describe('Non-Axios Errors', () => {
     it('should handle generic JavaScript errors', async () => {
       const genericError = new Error('Something went wrong');
-      mockAxiosInstance.get.mockRejectedValue(genericError);
+      
+      mockIsAxiosError.mockReturnValue(false);
+      
+      const responseInterceptor = mockAxiosInstance.interceptors.response.use.mock.calls[0];
+      const errorHandler = responseInterceptor[1];
+      
+      mockAxiosInstance.get.mockImplementation(async () => {
+        const handledError = await errorHandler(genericError);
+        return handledError;
+      });
 
       await expect(apiClient.getProjects()).rejects.toThrow(TodoistApiError);
     });
 
     it('should handle null/undefined errors', async () => {
-      mockAxiosInstance.get.mockRejectedValue(null);
+      mockIsAxiosError.mockReturnValue(false);
+      
+      const responseInterceptor = mockAxiosInstance.interceptors.response.use.mock.calls[0];
+      const errorHandler = responseInterceptor[1];
+      
+      mockAxiosInstance.get.mockImplementation(async () => {
+        const handledError = await errorHandler(null);
+        return handledError;
+      });
 
       await expect(apiClient.getProjects()).rejects.toThrow(TodoistApiError);
     });
 
     it('should handle string errors', async () => {
-      mockAxiosInstance.get.mockRejectedValue('String error');
+      mockIsAxiosError.mockReturnValue(false);
+      
+      const responseInterceptor = mockAxiosInstance.interceptors.response.use.mock.calls[0];
+      const errorHandler = responseInterceptor[1];
+      
+      mockAxiosInstance.get.mockImplementation(async () => {
+        const handledError = await errorHandler('String error');
+        return handledError;
+      });
 
       await expect(apiClient.getProjects()).rejects.toThrow(TodoistApiError);
     });
@@ -243,7 +353,7 @@ describe('TodoistApiClient - Error Handling', () => {
 
     it('should handle quickAddTask errors', async () => {
       mockAxiosInstance.post.mockRejectedValue(testError);
-      await expect(apiClient.quickAddTask({ text: 'Test task' })).rejects.toThrow();
+      await expect(apiClient.quickAddTask({ content: 'Test task' })).rejects.toThrow();
     });
 
     it('should handle getCompletedTasks errors', async () => {

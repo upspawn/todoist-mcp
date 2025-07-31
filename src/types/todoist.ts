@@ -130,9 +130,8 @@ export interface CreateLabelRequest {
 }
 
 export interface QuickAddRequest {
-  text: string;
-  note?: string;
-  reminder?: string;
+  content: string;
+  description?: string;
   project_id?: number;
   section_id?: number;
   parent_id?: number;

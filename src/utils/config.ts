@@ -14,7 +14,7 @@ export function loadConfig(): TodoistMcpConfig {
   const config: TodoistMcpConfig = {
     apiKey,
     baseUrl:
-      process.env.TODOIST_API_BASE_URL || 'https://api.todoist.com/rest/v2',
+      process.env.TODOIST_API_BASE_URL || 'https://api.todoist.com/api/v1',
     timeout: parseInt(process.env.TODOIST_TIMEOUT || '15000', 10),
     retryAttempts: parseInt(process.env.TODOIST_RETRY_ATTEMPTS || '3', 10),
     debug: process.env.DEBUG === 'true',

@@ -334,7 +334,7 @@ describe('TodoistApiClient - Extended Coverage', () => {
       const result = await apiClient.getCompletedTasks(filters);
 
       expect(mockAxiosInstance.get).toHaveBeenCalledWith(
-        '/completed/get_all?limit=50&since=2024-01-01T00%3A00%3A00Z'
+        '/tasks/completed?limit=50&since=2024-01-01T00%3A00%3A00Z'
       );
       expect(result).toEqual(mockResponse);
     });
@@ -347,7 +347,7 @@ describe('TodoistApiClient - Extended Coverage', () => {
 
       const result = await apiClient.getCompletedTasks();
 
-      expect(mockAxiosInstance.get).toHaveBeenCalledWith('/completed/get_all?');
+      expect(mockAxiosInstance.get).toHaveBeenCalledWith('/tasks/completed?');
       expect(result).toEqual(mockResponse);
     });
 
@@ -362,7 +362,7 @@ describe('TodoistApiClient - Extended Coverage', () => {
       const result = await apiClient.getCompletedTasksByProject(1, filters);
 
       expect(mockAxiosInstance.get).toHaveBeenCalledWith(
-        '/completed/get_project?project_id=1&limit=25&until=2024-12-31'
+        '/tasks/completed?project_id=1&limit=25&until=2024-12-31'
       );
       expect(result).toEqual(mockResponse);
     });
@@ -380,7 +380,7 @@ describe('TodoistApiClient - Extended Coverage', () => {
 
       const result = await apiClient.getProductivityStats();
 
-      expect(mockAxiosInstance.get).toHaveBeenCalledWith('/completed/get_stats');
+      expect(mockAxiosInstance.get).toHaveBeenCalledWith('/tasks/completed/stats');
       expect(result).toEqual(mockStats);
     });
   });

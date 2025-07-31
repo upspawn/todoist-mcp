@@ -261,13 +261,13 @@ describe('TodoistApiClient', () => {
     });
 
     it('should quick add task', async () => {
-      const quickAddData = { text: 'Buy milk tomorrow p2' };
+      const quickAddData = { content: 'Buy milk tomorrow p2' };
       const createdTask = { id: 1, content: 'Buy milk', priority: 2 };
       mockAxiosInstance.post.mockResolvedValue({ data: createdTask });
 
       const result = await apiClient.quickAddTask(quickAddData);
 
-      expect(mockAxiosInstance.post).toHaveBeenCalledWith('/quick/add', quickAddData);
+      expect(mockAxiosInstance.post).toHaveBeenCalledWith('/tasks/quick', quickAddData);
       expect(result).toEqual(createdTask);
     });
 
@@ -648,7 +648,7 @@ describe('TodoistApiClient', () => {
 
       const result = await apiClient.getCompletedTasks();
 
-      expect(mockAxiosInstance.get).toHaveBeenCalledWith('/completed/get_all?');
+      expect(mockAxiosInstance.get).toHaveBeenCalledWith('/tasks/completed?');
       expect(result).toEqual(mockResponse);
     });
 
@@ -659,7 +659,7 @@ describe('TodoistApiClient', () => {
 
       const result = await apiClient.getCompletedTasks(filters);
 
-      expect(mockAxiosInstance.get).toHaveBeenCalledWith('/completed/get_all?limit=50&since=2023-01-01T00%3A00%3A00Z');
+      expect(mockAxiosInstance.get).toHaveBeenCalledWith('/tasks/completed?limit=50&since=2023-01-01T00%3A00%3A00Z');
       expect(result).toEqual(mockResponse);
     });
 
@@ -670,7 +670,7 @@ describe('TodoistApiClient', () => {
 
       const result = await apiClient.getCompletedTasksByProject(projectId);
 
-      expect(mockAxiosInstance.get).toHaveBeenCalledWith('/completed/get_project?project_id=1');
+      expect(mockAxiosInstance.get).toHaveBeenCalledWith('/tasks/completed?project_id=1');
       expect(result).toEqual(mockResponse);
     });
 
@@ -682,7 +682,7 @@ describe('TodoistApiClient', () => {
 
       const result = await apiClient.getCompletedTasksByProject(projectId, filters);
 
-      expect(mockAxiosInstance.get).toHaveBeenCalledWith('/completed/get_project?project_id=1&limit=30&until=2023-12-31');
+      expect(mockAxiosInstance.get).toHaveBeenCalledWith('/tasks/completed?project_id=1&limit=30&until=2023-12-31');
       expect(result).toEqual(mockResponse);
     });
 
@@ -692,7 +692,7 @@ describe('TodoistApiClient', () => {
 
       const result = await apiClient.getProductivityStats();
 
-      expect(mockAxiosInstance.get).toHaveBeenCalledWith('/completed/get_stats');
+      expect(mockAxiosInstance.get).toHaveBeenCalledWith('/tasks/completed/stats');
       expect(result).toEqual(mockStats);
     });
   });

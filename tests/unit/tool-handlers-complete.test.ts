@@ -418,9 +418,8 @@ describe('TodoistToolHandlers - Complete Coverage', () => {
       mockApiClient.quickAddTask.mockResolvedValue(mockTask);
 
       const result = await toolHandlers.handleTool('quick_add_task', {
-        text: 'Complete project tomorrow p3 #work',
-        note: 'This is a note',
-        reminder: '1 hour before',
+        content: 'Complete project tomorrow p3 #work',
+        description: 'This is a note',
         project_id: 2,
         section_id: 3,
         parent_id: 4,
@@ -430,9 +429,8 @@ describe('TodoistToolHandlers - Complete Coverage', () => {
 
       expect(result.isError).toBeFalsy();
       expect(mockApiClient.quickAddTask).toHaveBeenCalledWith({
-        text: 'Complete project tomorrow p3 #work',
-        note: 'This is a note',
-        reminder: '1 hour before',
+        content: 'Complete project tomorrow p3 #work',
+        description: 'This is a note',
         project_id: 2,
         section_id: 3,
         parent_id: 4,

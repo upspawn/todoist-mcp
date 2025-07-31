@@ -22,7 +22,7 @@ describe('Configuration', () => {
       const config = loadConfig();
       
       expect(config.apiKey).toBe('test-api-key');
-      expect(config.baseUrl).toBe('https://api.todoist.com/rest/v2');
+      expect(config.baseUrl).toBe('https://api.todoist.com/api/v1');
       expect(config.timeout).toBe(15000);
       expect(config.retryAttempts).toBe(3);
       expect(config.debug).toBe(false);
