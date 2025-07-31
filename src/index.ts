@@ -8,6 +8,8 @@ import {
   CallToolRequestSchema,
   ListToolsRequestSchema,
 } from '@modelcontextprotocol/sdk/types.js';
+import { readFileSync } from 'fs';
+import { join } from 'path';
 
 import { loadConfig, validateApiKey } from './utils/config.js';
 import { logger } from './utils/logger.js';
@@ -46,11 +48,15 @@ async function main() {
     // Initialize tool handlers
     const toolHandlers = new TodoistToolHandlers(apiClient);
 
+    // Read version from package.json dynamically
+    const packageJsonPath = join(__dirname, '..', 'package.json');
+    const packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf8'));
+
     // Create MCP server
     const server = new Server(
       {
         name: 'todoist-mcp',
-        version: '0.2.0',
+        version: packageJson.version,
       },
       {
         capabilities: {
