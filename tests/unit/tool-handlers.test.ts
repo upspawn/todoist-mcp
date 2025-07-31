@@ -140,15 +140,14 @@ describe('TodoistToolHandlers', () => {
       mockApiClient.quickAddTask.mockResolvedValue(mockTask);
 
       const result = await toolHandlers.handleTool('quick_add_task', {
-        text: 'Submit report by Friday 5pm #Work p2',
+        content: 'Submit report by Friday 5pm #Work p2',
       });
 
       expect(result.isError).toBeFalsy();
       expect(result.content[0].text).toContain('Task created via quick add');
       expect(mockApiClient.quickAddTask).toHaveBeenCalledWith({
-        text: 'Submit report by Friday 5pm #Work p2',
-        note: undefined,
-        reminder: undefined,
+        content: 'Submit report by Friday 5pm #Work p2',
+        description: undefined,
         project_id: undefined,
         section_id: undefined,
         parent_id: undefined,

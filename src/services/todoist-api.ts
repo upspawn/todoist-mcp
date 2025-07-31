@@ -210,7 +210,7 @@ export class TodoistApiClient {
   async quickAddTask(data: QuickAddRequest): Promise<Task> {
     logger.debug_log('Quick adding task', data);
     const response: AxiosResponse<Task> = await this.client.post(
-      '/quick/add',
+      '/tasks/quick',
       data
     );
     return response.data;
@@ -349,7 +349,7 @@ export class TodoistApiClient {
     }
 
     const response: AxiosResponse<CompletedTasksResponse> =
-      await this.client.get(`/completed/get_all?${params}`);
+      await this.client.get(`/tasks/completed?${params}`);
     return response.data;
   }
 
@@ -370,14 +370,14 @@ export class TodoistApiClient {
     }
 
     const response: AxiosResponse<CompletedTasksResponse> =
-      await this.client.get(`/completed/get_project?${params}`);
+      await this.client.get(`/tasks/completed?${params}`);
     return response.data;
   }
 
   async getProductivityStats(): Promise<ProductivityStats> {
     logger.debug_log('Fetching productivity stats');
     const response: AxiosResponse<ProductivityStats> = await this.client.get(
-      '/completed/get_stats'
+      '/tasks/completed/stats'
     );
     return response.data;
   }

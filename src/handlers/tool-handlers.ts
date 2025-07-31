@@ -284,9 +284,8 @@ export class TodoistToolHandlers {
     args: Record<string, unknown>
   ): Promise<McpToolResponse> {
     const task = await this.apiClient.quickAddTask({
-      text: args.text as string,
-      note: args.note as string | undefined,
-      reminder: args.reminder as string | undefined,
+      content: args.content as string,
+      description: args.description as string | undefined,
       project_id: args.project_id as number | undefined,
       section_id: args.section_id as number | undefined,
       parent_id: args.parent_id as number | undefined,

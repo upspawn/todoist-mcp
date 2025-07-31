@@ -1,11 +1,11 @@
+// Jest configuration for integration tests (including real API tests)
 module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'node',
   roots: ['<rootDir>/src', '<rootDir>/tests'],
   testMatch: ['**/__tests__/**/*.ts', '**/?(*.)+(spec|test).ts'],
-  testPathIgnorePatterns: [
-    '<rootDir>/tests/integration/todoist-api-real.test.ts'
-  ],
+  // Only ignore the error handling test, allow real API tests
+  testPathIgnorePatterns: ['<rootDir>/tests/unit/api-error-handling.test.ts'],
   transform: {
     '^.+\\.ts$': 'ts-jest',
   },
@@ -28,4 +28,6 @@ module.exports = {
   },
   coverageDirectory: 'coverage',
   coverageReporters: ['text', 'lcov', 'html'],
+  // Extended timeouts for API calls
+  testTimeout: 60000,
 };

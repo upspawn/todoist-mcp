@@ -13,6 +13,8 @@
     "start": "node dist/index.js",
     "test": "jest",
     "test:watch": "jest --watch",
+    "test:integration": "jest --config=jest.integration.config.js tests/integration/todoist-api-real.test.ts --detectOpenHandles --forceExit",
+    "test:all": "jest --config=jest.integration.config.js",
     "lint": "eslint src/ --ext .ts",
     "lint:fix": "eslint src/ --ext .ts --fix",
     "format": "prettier --write src/",
